@@ -1,0 +1,65 @@
+version: "3"
+
+services:
+  # Serviço que irá rodar o node
+  node:
+    # Imagem base do container
+    image: node:16
+    # Nome do container para facilitar execução
+    container_name: menu
+    # Mesmo que `docker run -t`
+    tty: true
+    # Mesmo que `docker run -i`
+    stdin_open: true
+    # Substitui o comando padrão da imagem do node
+    command: bash
+    # Restarta a imagem caso algo a faça parar
+    restart: always
+    # Diretório padrão de execução
+    working_dir: /app
+    # Lista de volumes (diretórios) mapeados de fora para dentro do container
+    volumes:
+      # Monta o diretório atual, com todos os dados do projeto, 
+      # dentro do diretório /app
+      - ./:/app
+    # Lista de serviços do qual este serviço depende
+    depends_on:
+      # Precisa do banco funcionando antes de subir o node
+      - db
+    # Lista de portas mapeadas de dentro para fora do container
+    # na notação porta_de_fora:porta_de_dentro
+    ports:
+      # Expõe a porta padrão da aplicação: altere aqui caso use outra porta
+      - 3001:3001
+    # Configura as variáveis de ambiente dentro do container
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_HOST: db # Nome do service logo abaixo
+      PORT: 3001
+
+  # Serviço que irá rodar o banco de dados
+  db:
+    container_name: menu_db
+    image: mysql/mysql-server:8.0.20
+    environment:
+      MYSQL_ROOT_USER=root: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_HOST: "%"
+    ports:
+      # Garanta que não haverá conflitos de porta com um banco que esteja
+      # rodando localmente
+      - 3306:3306
+    networks:
+      network:
+        ipv4_address: 172.20.0.2
+
+# Lista de redes que os containeres irão utilizar
+networks:
+# Rede padrão, criada automaticamente
+  network:
+    ipam:
+        config:
+          - subnet: 172.20.0.0/16
+  default:
+    name: menu_net
