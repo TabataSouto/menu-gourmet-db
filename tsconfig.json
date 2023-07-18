@@ -17,5 +17,16 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": [
+    "src",
+    ".eslintrc.js",
+    "./tsconfig.eslint.json",
+    "./packages/*/tsconfig.json",
+    "./**/*",
+    "./**/.*",
+    "./**/.*.[tj]s?(x)",
+  ],
+  "exclude": ["node_modules", "build", "dist", ".docker"],
+  "ignorePatterns": ["/*.*"]
 }

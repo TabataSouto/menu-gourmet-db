@@ -10,17 +10,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     /* São os parâmetros de conexão necessários para que a conexão
     com o banco de dados seja realizada. */
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      type: 'postgres',
       host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'password',
-      database: 'menu',
+      port: 5432,
+      username: 'postgres',
+      password: 'docker',
+      database: 'menugoutmet',
       // faz o carregamento automático das entidades
       autoLoadEntities: true,
       /* cria as tabelas no banco de dados automaticamente
       de acordo com o que for definido nas etidades */
-      synchronize: true,
+      synchronize: false,
     }),
   ],
   controllers: [AppController],
