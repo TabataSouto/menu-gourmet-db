@@ -5,7 +5,7 @@ ou quais informações que são recebidas no body/payload da requisição. */
 
 import { IsString } from 'class-validator';
 
-export class CreateUserDto {
+export class CreateRegisterDto {
   @IsString()
   readonly name: string;
 
@@ -14,10 +14,4 @@ export class CreateUserDto {
 
   @IsString()
   readonly password: string;
-
-  @IsString()
-  readonly address: string;
-
-  @IsString()
-  readonly payment: string;
 }

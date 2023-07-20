@@ -1,40 +1,30 @@
-version: '3'
+version: "3"
 
 services:
   app:
-    # aqui dizemos que o build (a construção da imagem) será do arquivo Dockerfile
-    # que está na raiz do projeto, ou seja, na mesma pasta em
-    # que o docker-compose está
     build: .
     entrypoint: .docker/entrypoint.sh
-    container_name: menugourmet
-    # binds de porta
+    container_name: menugourmet-app
     ports:
-      - "3001:3000"
-    # quando rodar o container, tudo o que estiver na pasta principal (raiz)
-    # vai ser espelhado na pasta do container definida no workdir do dockerfile
+      - ${PORT}:${PORT}
     volumes:
-      - .:/home/node/app
+      - .:/app
     depends_on:
       - db
 
   db:
     build: .docker/postgres
     container_name: menugourmet-db
-    # para que o container seja reiniciado sempre que houver um problema
     restart: always
-    # para ter acesso ao terminal
     tty: true
     ports:
-      - "5432:5432"
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - .docker/dbdata:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=menugourmet
-      - POSTGRES_HOST=localhost
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DATABASE}
 
-  # para gerenciar o banco de dados postgres
   pgadmin:
     image: dpage/pgadmin4
     container_name: menugourmet-pgadmin
@@ -43,8 +33,6 @@ services:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
-      # por padrão, o pgadmin roda na porta 80, mas aqui dizemos que
-      # queremos que na nossa máquina a porta 80 tode na 8000 
       - "8000:80"
     depends_on:
       - db

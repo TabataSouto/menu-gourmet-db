@@ -4,8 +4,8 @@ decorators */
 
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('users')
-export class User {
+@Entity('register')
+export class Register {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -17,10 +17,4 @@ export class User {
 
   @Column()
   password: string;
-
-  @Column()
-  address: string;
-
-  @Column()
-  payment: string;
 }
