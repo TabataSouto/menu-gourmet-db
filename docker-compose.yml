@@ -6,7 +6,7 @@ services:
     entrypoint: .docker/entrypoint.sh
     container_name: menugourmet-app
     ports:
-      - ${PORT}:${PORT}
+      - "3001:3000"
     volumes:
       - .:/app
     depends_on:
@@ -18,21 +18,23 @@ services:
     restart: always
     tty: true
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      - "5432:5432"
     volumes:
       - .docker/dbdata:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=menugourmet
 
   pgadmin:
     image: dpage/pgadmin4
     container_name: menugourmet-pgadmin
     tty: true
     environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=admin
+     - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+     - PGADMIN_DEFAULT_PASSWORD=admin
     ports:
       - "8000:80"
     depends_on:
       - db
+
+  

@@ -3,11 +3,12 @@ import { CreateRegisterDto } from './dto/create-register.dto';
 import { Register } from './entities/register.entity';
 import { UpdateRegisterDto } from './dto/update-register.dto';
 import { Repository } from 'typeorm';
+import { repository_register } from './register.providers';
 
 @Injectable()
 export class RegisterService {
   constructor(
-    @Inject('REGISTER_REPOSITORY')
+    @Inject(repository_register)
     private readonly registerRepository: Repository<Register>,
   ) {}
 

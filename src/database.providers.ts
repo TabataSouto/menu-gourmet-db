@@ -1,5 +1,4 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config();
 import { DataSource } from 'typeorm';
 import { CreateLoginTable1689852608284 } from './migrations/1689852608284-CreateLoginTable';
 
